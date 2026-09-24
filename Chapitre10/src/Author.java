@@ -39,4 +39,9 @@ public class Author {
 
         return Objects.equals(name, author.getName()) && Objects.equals(firstName, author.getFirstName());
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, name);
+    }
 }

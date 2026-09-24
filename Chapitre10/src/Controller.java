@@ -34,6 +34,7 @@ public class Controller {
         System.out.println("Quel est votre choix ?");
 
         int choice = scan.nextInt();
+        scan.nextLine();
 
         switch (choice){
             case 1:
@@ -68,7 +69,7 @@ public class Controller {
         System.out.println("Quel est votre choix ?");
 
         int choice = scan.nextInt();
-
+        scan.nextLine();
         switch (choice){
             case 1:
                 try{
@@ -101,6 +102,7 @@ public class Controller {
         System.out.println("Quel est votre choix ?");
 
         int choice = scan.nextInt();
+        scan.nextLine();
 
         switch (choice){
             case 1:
@@ -187,7 +189,6 @@ public class Controller {
     }
 
     private static String promptDiskName() throws DiskException {
-        scan.nextLine();
         System.out.println("Saisissez le nom du disque");
         String diskName = scan.nextLine();
 

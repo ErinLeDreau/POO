@@ -64,8 +64,6 @@ public class Disk {
         String dateFormatted = (date != null) ? date.format(DATE_FORMATTER) : "Année inconnue";
 
         return
-                "nom='" + name + '\'' +
-                ", auteur=" + author +
-                ", date=" + dateFormatted;
+                name + ' ' + author + ' ' +dateFormatted;
     }
 }
