@@ -104,7 +104,12 @@ public class Controller {
 
         switch (choice){
             case 1:
-                deleteDiskChoice();
+                try{
+                    deleteDiskChoice();
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("Vous n'avez pas saisi un numéro de disque valide");
+                }
+
                 break;
             case 2:
                 try{
@@ -169,7 +174,6 @@ public class Controller {
     }
 
     private static Author promptAuthor() throws AuthorException {
-        scan.nextLine();
         System.out.println("Saisissez le nom de l'auteur");
         String name = scan.nextLine();
         System.out.println("Saisissez le prénom de l'auteur");
@@ -195,7 +199,6 @@ public class Controller {
     }
 
     private static LocalDate promptDate() throws DateFormatException {
-        scan.nextLine();
         System.out.println("Saisissez la date de publication au format dd/mm/yyyy");
         String date = scan.nextLine();
         if(!date.matches("^\\d{2}/\\d{2}/\\d{4}$")){

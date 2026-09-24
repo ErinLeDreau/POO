@@ -54,6 +54,9 @@ public class GestionDisk {
         if (diskToFind != null) {
             deleteDisk(diskToFind);
         }
+        else{
+            System.out.println("Aucun disque trouvé avec le nom : " + n);
+        }
     }
 
     public static void showLibDisk(){
@@ -76,6 +79,9 @@ public class GestionDisk {
                     Comparator.comparing(Disk::getDate, Comparator.nullsLast(Comparator.naturalOrder()))
                     .thenComparing(Disk::getName, String.CASE_INSENSITIVE_ORDER)
                 );
+
+        System.out.println("La liste des disques a été triée par date de publication (et par nom en cas d'égalité).");
+        showLibDisk();
     }
 
     public static ArrayList<Disk> getLibDisk() {
