@@ -13,7 +13,7 @@ public class Controller {
     //affichage de la discothèque
     //Lecture du disque
 
-    private static Scanner scan = new Scanner(System.in);
+    private static final Scanner scan = new Scanner(System.in);
     static void main() {
         while(true){
             menu();
@@ -126,36 +126,11 @@ public class Controller {
     }
 
     private static void addDisk(boolean withDate) throws AuthorException, DateFormatException, DuplicateException, DiskException {
-        scan.nextLine();
-        System.out.println("Saisissez le nom du disque");
-        String diskName = scan.nextLine();
+        String diskName = promptDiskName();
 
-        if(diskName.isEmpty()){
-            throw new DiskException("Nom du disque non saisi");
-        }
-
-        Author a;
-        System.out.println("Saisissez le nom de l'auteur");
-        String name = scan.nextLine();
-        System.out.println("Saisissez le prénom de l'auteur");
-        String firstName = scan.nextLine();
-
-        if(name.isEmpty() || firstName.isEmpty()){
-            throw new AuthorException("Nom ou prénom non saisi");
-        }
-        else {
-            a= new Author(name, firstName);
-        }
-
+        Author a = promptAuthor();
         if(withDate){
-            System.out.println("Saisissez la date de publication au format dd/mm/yyyy");
-            String date = scan.nextLine();
-            if(!date.matches("^\\d{2}/\\d{2}/\\d{4}$")){
-                throw new DateFormatException("La date n'est pas au format dd/mm/yyyy");
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            LocalDate localDate = LocalDate.parse(date, formatter);
+            LocalDate localDate = promptDate();
             GestionDisk.createDisk(diskName, a, localDate);
         }
         else{
@@ -177,6 +152,37 @@ public class Controller {
     }
 
     private static void deleteDisk(boolean withAuthor) throws DuplicateException, AuthorException, DiskException {
+        if(GestionDisk.getLibDisk().isEmpty()){
+            System.out.println("La discothèque est vide");
+            return;
+        }
+
+        String diskName = promptDiskName();
+
+        if(withAuthor){
+            Author a = promptAuthor();
+            GestionDisk.deleteDisk(diskName, a);
+        }
+        else{
+            GestionDisk.deleteDisk(diskName);
+        }
+    }
+
+    private static Author promptAuthor() throws AuthorException {
+        scan.nextLine();
+        System.out.println("Saisissez le nom de l'auteur");
+        String name = scan.nextLine();
+        System.out.println("Saisissez le prénom de l'auteur");
+        String firstName = scan.nextLine();
+
+        if(name.isEmpty() || firstName.isEmpty()){
+            throw new AuthorException("Nom ou prénom non saisi");
+        }
+
+        return new Author(name, firstName);
+    }
+
+    private static String promptDiskName() throws DiskException {
         scan.nextLine();
         System.out.println("Saisissez le nom du disque");
         String diskName = scan.nextLine();
@@ -185,23 +191,18 @@ public class Controller {
             throw new DiskException("Nom du disque non saisi");
         }
 
-        if(withAuthor){
-            Author a;
-            System.out.println("Saisissez le nom de l'auteur");
-            String name = scan.nextLine();
-            System.out.println("Saisissez le prénom de l'auteur");
-            String firstName = scan.nextLine();
+        return diskName;
+    }
 
-            if(name.isEmpty() || firstName.isEmpty()){
-                throw new AuthorException("Nom ou prénom non saisi");
-            }
-            else {
-                a= new Author(name, firstName);
-            }
-            GestionDisk.deleteDisk(diskName, a);
+    private static LocalDate promptDate() throws DateFormatException {
+        scan.nextLine();
+        System.out.println("Saisissez la date de publication au format dd/mm/yyyy");
+        String date = scan.nextLine();
+        if(!date.matches("^\\d{2}/\\d{2}/\\d{4}$")){
+            throw new DateFormatException("La date n'est pas au format dd/mm/yyyy");
         }
-        else{
-            GestionDisk.deleteDisk(diskName);
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        return LocalDate.parse(date, formatter);
     }
 }

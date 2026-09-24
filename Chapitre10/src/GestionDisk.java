@@ -26,9 +26,12 @@ public class GestionDisk {
     }
 
     public static void deleteDisk(Disk disk){
-        if (!libDisk.contains(disk)){
-            libDisk.remove(disk);
+        if (!libDisk.remove(disk)){
+            System.out.println("Ce disque n'est pas présent ou n'a pas pu être supprimer");
+            return;
         }
+
+        System.out.println("Le disque " + disk + " a bien été supprimer de la discothèque");
     }
 
     public static void deleteDisk(String n, Author a){
